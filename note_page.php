@@ -87,11 +87,16 @@
 
         session_start();
 
+        if(empty($_SESSION['username'])) {
+            header("location:login_page.php?message=not_yet_login");
+        }
+
         $note_id = $_GET['note_id'];
 
         $note_query = mysqli_query($connect, "SELECT * from notes WHERE note_id='$note_id'");
         $note_data = mysqli_fetch_array($note_query);
-        $_SESSION['current_note_id'] = $note_data;
+        $_SESSION['current_note_id'] = $note_data['note_id'];
+
     ?>
     <div class="container">
         <form action="input_edited_note.php" method="post">
